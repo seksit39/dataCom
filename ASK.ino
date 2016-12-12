@@ -1,15 +1,15 @@
-
+/*
+created by sek su
+uncomment sender or reciever to select
+*/
 #include <Wire.h>
 #include <Adafruit_MCP4725.h>
 
-#define pi 3.14159265
-#define frequency  60
+//#define SENDER
+//#define RECIEVER
 
 Adafruit_MCP4725 dac;
 
-float amplitude = 0.5;
-int multipi = 1;
-int del = 20;
 int input[10] = {0,0,0,0,0,0,0,0,0,0};
 
 const uint16_t sine[32] =
@@ -28,7 +28,7 @@ void setup(void) {
 }
 
 void loop(void) {
-
+#ifdef SEND
       if(Serial.available() != 0){
         int tmp = Serial.parseInt();
         if(tmp > 0){
