@@ -9,7 +9,7 @@ uncomment sender or reciever to select
 //#define RECIEVER
 
 Adafruit_MCP4725 dac;
-
+int a = 0;
 int input[10] = {0,0,0,0,0,0,0,0,0,0};
 
 const uint16_t sine[32] =
@@ -36,11 +36,32 @@ void loop(void) {
           Serial.println(multipi);
         } 
       }
-    for(int a=1 ; a<5   ; a++){
-      for(int b=0 ; b<2 ; b++){
+  
+    for(int k=0 ; k<10 ; k+=2){
+      if(input[k] == 0){
+        if(input[k+1] == 0){
+          a = 1;
+        }
+        else if(input[k+1] == 1){
+          a = 2;
+        }
+      }
+      else if(input[k] == 1){
+        if(input[k+1] == 0){
+          a = 3;
+        }
+        else if(input[k+1] == 1){
+          a = 4;
+        }
+      }
+      for(int j=0 ; j<4 ; j++){
           for(int i=0 ; i<32 ; i++){
             dac.setVoltage(sine[i]*a/4, false);
           }
       }
     }
+#endif
+#ifdef RECIEVER
+  
+#endif
 }
