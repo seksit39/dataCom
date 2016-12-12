@@ -9,24 +9,39 @@ uncomment sender or reciever to select
 //#define SENDER
 //#define RECIEVER
 
-Adafruit_ADS1115 ads;
-Adafruit_MCP4725 dac;
-uint16_t a = 0;
-uint16_t input[10] = {0,0,0,0,0,0,0,0,0,0};
+#ifdef SENDER
+  Adafruit_MCP4725 dac;
+  uint16_t a = 0;
+  uint16_t input[10] = {0,0,0,0,0,0,0,0,0,0};
+  const uint16_t sine[32] =
+  {
+    2048, 2447, 2831, 3185, 3495, 3750, 3939, 4056,
+    4095, 4056, 3939, 3750, 3495, 3185, 2831, 2447,
+    2048, 1648, 1264,  910,  600,  345,  156,   39,
+       0,   39,  156,  345,  600,  910, 1264, 1648
+  };
+#endif
 
-const uint16_t sine[32] =
-{
-  2048, 2447, 2831, 3185, 3495, 3750, 3939, 4056,
-  4095, 4056, 3939, 3750, 3495, 3185, 2831, 2447,
-  2048, 1648, 1264,  910,  600,  345,  156,   39,
-     0,   39,  156,  345,  600,  910, 1264, 1648
-};
+#ifdef RECIEVER
+  Adafruit_ADS1115 ads;
+  uint16_t sum = 0;
+  uint16_t max = 0;
+  uint16_t prev = 0;
+  boolean 
+#endif
 
 void setup(void) {
   
   Serial.begin(9600);
-  dac.begin(0x62);
+  
+  #ifdef SENDER
+    dac.begin(0x62);
+  #endif
+  
+  #ifdef RECIEVER
   ads.begin();  
+  #endif
+  
 }
 
 void loop(void) {
@@ -64,6 +79,17 @@ void loop(void) {
 
 #endif
 #ifdef RECIEVER
-  uint16_t tmp = ads.readADC_SingleEnded(0);
+  sum = 0;
+  for(int i=0 ; i<cout ; i++){
+    sum += ads.readADC_SingleEnded(0);
+  }
+  uint16_t tmp = sum/cout;
+
+  if(tmp > max)
+    max = tmp;
+  else if(tmp < max){
+    ;//check and show output 
+  }
+  prev = tmp;  
 #endif
 }
