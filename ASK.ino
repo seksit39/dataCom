@@ -53,25 +53,20 @@ void loop(void) {
         } 
         for(int k=0 ; k<10 ; k+=2){
           if(input[k] == 0){
-            if(input[k+1] == 0){
+            if(input[k+1] == 0)
               a = 1;
-            }
-            else if(input[k+1] == 1){
+            else if(input[k+1] == 1)
               a = 2;
-            }
           }
           else if(input[k] == 1){
-            if(input[k+1] == 0){
+            if(input[k+1] == 0)
               a = 3;
-            }
-            else if(input[k+1] == 1){
+            else if(input[k+1] == 1)
               a = 4;
-            }
           }
           for(int j=0 ; j<4 ; j++){
-              for(int i=0 ; i<32 ; i++){
+              for(int i=0 ; i<32 ; i++)
                 dac.setVoltage(sine[i]*a/4, false);
-              }
           }
         }   
       }
@@ -85,11 +80,23 @@ void loop(void) {
   }
   uint16_t tmp = sum/cout;
 
-  if(tmp > max)
-    max = tmp;
-  else if(tmp < max){
-    ;//check and show output 
+  if(tmp>prev && -10<tmp && tmp<10)
+    max = 0;
+  else if(tmp>max)
+    max=tmp;
+  else if(tmp<max && check==false){
+      int output = 0;                //check and show output 
+      if(-3333<max && max>3333)
+        output=-1;
+      else if(3333<max && max<9999)
+        output=0;
+      else if(9999<max && max<16665)
+        output=1;
+      else if(16665<max && max<
+  
+  
   }
   prev = tmp;  
+
 #endif
 }
