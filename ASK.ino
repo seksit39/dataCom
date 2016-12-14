@@ -92,9 +92,13 @@ void loop(void) {
         output=0;
       else if(9999<max && max<16665)
         output=1;
-      else if(16665<max && max<
-  
-  
+      else if(16665<max && max<23332)
+        output=2;
+      else if(23332<max && max<29998)
+        output=3;
+      
+      if(output!=-1)
+        Serial.print((BIN)output);
   }
   prev = tmp;  
 
