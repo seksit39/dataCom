@@ -54,23 +54,23 @@ void loop(void) {
         for(int k=0 ; k<10 ; k+=2){
           if(input[k] == 0){
             if(input[k+1] == 0)
-              a = 1;
+              a = 0;
             else if(input[k+1] == 1)
-              a = 2;
+              a = 1;
           }
           else if(input[k] == 1){
             if(input[k+1] == 0)
-              a = 3;
+              a = 2;
             else if(input[k+1] == 1)
-              a = 4;
+              a = 3;
           }
           for(int j=0 ; j<4 ; j++){
               for(int i=0 ; i<32 ; i++)
-                dac.setVoltage(sine[i]*a/4, false);
+                dac.setVoltage(sine[i]*(a+1)/4, false);
           }
         }   
       }
-  
+      dac.setVoltage(0, false);
 
 #endif
 #ifdef RECIEVER
