@@ -84,11 +84,10 @@ void loop(void) {
   int tmp = ads.readADC_SingleEnded(0);
   
   Serial.println(tmp);
-  if(tmp>prev && -10<tmp && tmp<10)
+  
+  if(-3333<tmp && tmp<3333){
     max = 0;
-  else if(tmp>max)
-    max=tmp;
-  else if(tmp<max && check==true){       //check and show output 
+    if(check == true){
       if(-3333<max && max<3333)
         output=-1;
       else if(3333<max && max<9999)
@@ -100,10 +99,16 @@ void loop(void) {
       else if(23332<max && max<29998)
         output=3;
       
-  if(output!=-1)
-     Serial.print(output);
+      if(output!=-1)
+        Serial.print(output);
      
-  check = false;
+      check = false;
+  }
+  else if(tmp>max){
+    max=tmp;
+  }
+  else if(max-tmp>1000 && check==false){       //check and show output 
+    check = true;
   }
   prev = tmp;  
 
