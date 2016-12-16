@@ -7,13 +7,13 @@ uncomment sender or reciever to select
 #include <Adafruit_ADS1015.h>
 
 //#define SENDER
-#define RECIEVER
+//#define RECIEVER
 
 #ifdef SENDER
   Adafruit_MCP4725 dac;
   uint16_t a = 0;
-  //uint16_t input[10] = {0,0,0,0,0,0,0,0,0,0};
-  uint16_t input[10] = {0,0,0,1,1,0,1,1,1,1};
+  uint16_t input[10] = {0,0,0,0,0,0,0,0,0,0};
+  //uint16_t input[10] = {0,0,0,1,1,0,1,1,1,1};
   const uint16_t sine[32] =
   {
        0,   39,  156,  345,  600,  910, 1264, 1648,
@@ -50,12 +50,12 @@ void loop(void) {
 #ifdef SENDER
       if(Serial.available() > 0){
         for(int i=0 ; i<10 ; i++){
-          //input[i] = Serial.parseInt();
+          input[i] = Serial.parseInt();
           Serial.print(input[i]);  
         }
         Serial.println();
         Serial.parseInt();
-        for(int x=0 ; x<10 ; x++)
+        //for(int x=0 ; x<10 ; x++)
         for(int k=0 ; k<10 ; k+=2){
           if(input[k] == 0){
             if(input[k+1] == 0)
@@ -89,10 +89,10 @@ void loop(void) {
   
   //Serial.println(tmp);
   
-  if(-3333<tmp && tmp<5000){
+  if(-3500<tmp && tmp<3500){
     
     if(check == true){
-      if(-3333<max && max<2000)
+      if(-3500<max && max<2000)
         output=-1;
       else if(2000<max && max<9000)
         output=0;        
@@ -110,10 +110,10 @@ void loop(void) {
       max = 0;
     }
   }
-  else if(tmp>max){
+  if(tmp>max){
     max=tmp;
   }
-  else if(tmp<max && check==false){       //check and show output 
+  if(max-tmp > 3000 && check==false){       //check and show output 
     check = true;
   }
   prev = tmp;  
