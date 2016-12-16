@@ -6,7 +6,7 @@ uncomment sender or reciever to select
 #include <Adafruit_MCP4725.h>
 #include <Adafruit_ADS1015.h>
 
-//#define SENDER
+#define SENDER
 //#define RECIEVER
 
 #ifdef SENDER
@@ -52,6 +52,7 @@ void loop(void) {
         for(int i=0 ; i<10 ; i++){
           input[i] = Serial.parseInt();
           Serial.print(input[i]);  
+          Serial.print(" ");
         }
         Serial.println();
         Serial.parseInt();
@@ -103,8 +104,16 @@ void loop(void) {
       else if(19000<max && max<29998)
         output=3;
       
-      if(output!=-1)
-        Serial.print(output);
+      if(output!=-1){
+        if(output == 0)
+          Serial.print("00");
+        else if(output == 1)
+          Serial.print("01");
+        else if(output == 2)
+          Serial.print("10");
+        else if(output == 3)
+          Serial.print("11");
+      }
      
       check = false;
       max = 0;
