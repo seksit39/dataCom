@@ -29,7 +29,8 @@ uncomment sender or reciever to select
   int max = 0;
   int prev = 0;
   int check = true;
-  int output = -1; 
+  int output = -1;
+  int cout = 0; 
 #endif
 
 void setup(void) {
@@ -93,7 +94,12 @@ void loop(void) {
         output=1;
       
       if(output!=-1){
+          cout++;
           Serial.print(output);
+          if(cout == 10){
+            Serial.println();
+            cout = 0;
+          }
       }
       check = false;
       max = 0;
