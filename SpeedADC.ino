@@ -1,4 +1,4 @@
-// For find speed of DAC(Hz) 
+// For find speed of ADC(Hz) 
 #include <Wire.h>
 #include <Adafruit_ADS1015.h>
 
