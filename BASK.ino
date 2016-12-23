@@ -6,8 +6,8 @@ uncomment sender or reciever to select
 #include <Adafruit_MCP4725.h>
 #include <Adafruit_ADS1015.h>
 
-//#define SENDER
-#define RECIEVER
+#define SENDER
+//#define RECIEVER
 
 #ifdef SENDER
   Adafruit_MCP4725 dac;
@@ -35,7 +35,7 @@ uncomment sender or reciever to select
 
 void setup(void) {
   
-  Serial.begin(115200);
+  Serial.begin(9600);
   
   #ifdef SENDER
     dac.begin(0x62);
@@ -57,7 +57,7 @@ void loop(void) {
         }
         Serial.println();
         Serial.parseInt();
-        for(int x=0 ; x<1000 ; x++)
+        for(int x=0 ; x<10 ; x++)
         for(int k=0 ; k<10 ; k++){
           if(input[k] == 0){
             a = 0; 
@@ -68,6 +68,7 @@ void loop(void) {
           for(int j=0 ; j<1 ; j++){
               for(int i=0 ; i<32 ; i++){
                 dac.setVoltage(sine[i]*(a+1)/2, false);
+                delayMicroseconds(1300);
               }
           }
         }   
@@ -88,9 +89,9 @@ void loop(void) {
     if(check == true){
       if(-3500<max && max<2000)
         output=-1;
-      else if(2000<max && max<16000)
+      else if(2000<max && max<21000)
         output=0;
-      else if(16000<max && max<29998)
+      else if(21000<max && max<29998)
         output=1;
       
       if(output!=-1){
@@ -108,7 +109,7 @@ void loop(void) {
   if(tmp>max){
     max=tmp;
   }
-  if(max-tmp > 3000 && check==false){       //check and show output 
+  if(max-tmp > 1000 && check==false){       //check and show output 
     check = true;
   }
   prev = tmp;  
