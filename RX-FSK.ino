@@ -1,26 +1,12 @@
 // Recieve FSK
 
 
-int input,max,prev,currentTime,prevTime,period;
+int input,max,prev,currentTime,prevTime,period,totalTime;
 float currentFrequency,prevFrequency;
 boolean check;
 
 void setup(void) 
 {
-/*  
-  // defines for setting and clearing register bits
-#ifndef cbi
-#define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
-#endif
-#ifndef sbi
-#define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
-#endif
-
-// set prescale to 16
-cbi(ADCSRA,ADPS2) ;
-cbi(ADCSRA,ADPS1) ; //
-cbi(ADCSRA,ADPS0) ;
-*/
   Serial.begin(115200);
 
   long first = micros();
@@ -44,7 +30,22 @@ void loop(void)
       currentTime = micros();
       period =  currentTime -  prevTime;
       currentFrequency = 1000000/period;
-      
+      int diff = abs(currentFrequency - prevFrequency);
+      if(diff < 100)
+        totalTime += period; 
+      else{
+         if(400 < currentFrequency && currentFrequency > 600){
+            int cycle = round(totalTime/2000);
+            for(int i=0 ; i<cycle ; i++)
+              Serial.print("0");
+         }
+         else if(900 < currentFrequency && currentFrequency > 1100){
+            int cycle = round(totalTime/1000);
+            for(int i=0 ; i<cycle ; i++)
+              Serial.print("1");
+         } 
+         totalTime = 0; 
+      }      
       prevFrequency = currentFrequency;
       prevTime = currentTime;
       Serial.println(currentFrequency);
