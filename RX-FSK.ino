@@ -1,9 +1,9 @@
 // Recieve FSK
 
 
-int input,max,prev,currentTime,prevTime,period,totalTime;
+int input,max,prev,currentTime,prevTime,period,totalTime = 0;
 float currentFrequency,prevFrequency;
-boolean check;
+boolean check,cp = true;
 
 void setup(void) 
 {
@@ -30,25 +30,22 @@ void loop(void)
       currentTime = micros();
       period =  currentTime -  prevTime;
       currentFrequency = 1000000/period;
-      int diff = abs(currentFrequency - prevFrequency);
-      if(diff < 100)
-        totalTime += period; 
-      else{
-         if(400 < currentFrequency && currentFrequency > 600){
-            int cycle = round(totalTime/2000);
-            for(int i=0 ; i<cycle ; i++)
-              Serial.print("0");
+      
+         if(400 < currentFrequency && currentFrequency < 600){
+              if(cp)
+                Serial.print("0");
+               cp = !cp;
+              
          }
-         else if(900 < currentFrequency && currentFrequency > 1100){
-            int cycle = round(totalTime/1000);
-            for(int i=0 ; i<cycle ; i++)
-              Serial.print("1");
-         } 
-         totalTime = 0; 
-      }      
+         else if(900 < currentFrequency && currentFrequency < 1100){
+              if(cp)
+                Serial.print("1");
+              cp = !cp;
+         }  
+            
       prevFrequency = currentFrequency;
       prevTime = currentTime;
-      Serial.println(currentFrequency);
+      //Serial.println(currentFrequency);
       check = false;
     }
     if(input>max){
