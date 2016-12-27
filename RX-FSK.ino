@@ -1,12 +1,22 @@
 // Recieve FSK
 
+#ifndef cbi
+#define cbi(sfr, bit) (_SFR_BYTE(sfr) &= ~_BV(bit))
+#endif
+#ifndef sbi
+#define sbi(sfr, bit) (_SFR_BYTE(sfr) |= _BV(bit))
+#endif
 
-int input,max,prev,currentTime,prevTime,period,totalTime = 0;
+int input,max,prev,currentTime,prevTime,period,cout = 0,totalTime = 0;
 float currentFrequency,prevFrequency;
 boolean check,cp = true;
 
 void setup(void) 
 {
+  sbi(ADCSRA,ADPS2) ;
+  cbi(ADCSRA,ADPS1) ;
+  cbi(ADCSRA,ADPS0) ;
+  
   Serial.begin(115200);
 
   long first = micros();
@@ -23,35 +33,44 @@ void setup(void)
 }
 
 void loop(void) 
-{
+{   
     input = analogRead(A0);
     
-    if(input > 600 && check == true){
+    if(input > 5 && check == true){
       currentTime = micros();
       period =  currentTime -  prevTime;
       currentFrequency = 1000000/period;
       
-         if(400 < currentFrequency && currentFrequency < 600){
-              if(cp)
-                Serial.print("0");
+         if(400 < currentFrequency && currentFrequency < 700){
+              if(cp){
+                Serial.print("0 ");
+                cout++;
+              }
                cp = !cp;
               
          }
          else if(900 < currentFrequency && currentFrequency < 1100){
-              if(cp)
-                Serial.print("1");
+              if(cp){
+                Serial.print("1 ");
+                cout++;
+                delayMicroseconds(1700);
+              }
+                
               cp = !cp;
          }  
-            
+      if(cout == 10){
+        Serial.println();
+        cout = 0;      
+      }
       prevFrequency = currentFrequency;
       prevTime = currentTime;
-      //Serial.println(currentFrequency);
+      Serial.println(currentFrequency);
       check = false;
     }
     if(input>max){
     max=input;
     }
-    if(max-input > 400 && check==false){
+    if(max-input > 3 && check==false){
     check = true;
     }
   
