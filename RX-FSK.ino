@@ -36,12 +36,12 @@ void loop(void)
 {   
     input = analogRead(A0);
     
-    if(input > 5 && check == true){
+    if(input > 750 && check == true){
       currentTime = micros();
       period =  currentTime -  prevTime;
       currentFrequency = 1000000/period;
       
-         if(400 < currentFrequency && currentFrequency < 700){
+         if(300 < currentFrequency && currentFrequency < 700){
               if(cp){
                 Serial.print("0 ");
                 cout++;
@@ -49,11 +49,11 @@ void loop(void)
                cp = !cp;
               
          }
-         else if(900 < currentFrequency && currentFrequency < 1100){
+         else if(800 < currentFrequency && currentFrequency < 1500){
               if(cp){
                 Serial.print("1 ");
                 cout++;
-                delayMicroseconds(1700);
+                delayMicroseconds(2200);
               }
                 
               cp = !cp;
@@ -64,13 +64,13 @@ void loop(void)
       }
       prevFrequency = currentFrequency;
       prevTime = currentTime;
-      Serial.println(currentFrequency);
+      //Serial.println(currentFrequency);
       check = false;
     }
     if(input>max){
     max=input;
     }
-    if(max-input > 3 && check==false){
+    if(max-input > 50 && check==false){
     check = true;
     }
   
