@@ -11,12 +11,8 @@ none       1736 Hz
 */
 #include <Wire.h>
 #include <Adafruit_MCP4725.h>
-#include <Adafruit_ADS1015.h>
-
-#define SENDER
 
   Adafruit_MCP4725 dac;
-  uint16_t a = 0;
   uint16_t input[10] = {0,0,0,0,0,0,0,0,0,0};
   //const uint16_t sine[16] = {0,156,600,1264,2048,2831,3495,3939,4095,3939,3495,2831,2048,1264,600,156}; // At 430 Hz
   //const uint16_t sine[8]  = {2048,3495,4095,3495,2048,600,0,600};  // At 870 Hz
